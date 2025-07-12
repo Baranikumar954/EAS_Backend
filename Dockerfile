@@ -1,10 +1,10 @@
-# Use Maven to build the project first, then run the built JAR
-
-FROM maven:3.8.6-openjdk-17 AS build
+# ---- Build Stage ----
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
+# ---- Runtime Stage ----
 FROM openjdk:17-jdk-slim
 VOLUME /tmp
 COPY --from=build /app/target/*.jar app.jar
